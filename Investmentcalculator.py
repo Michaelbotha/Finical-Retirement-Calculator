@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[26]:
+# In[10]:
 
-
-#Single selections dropdown working with freq
 
 import dash
 import dash_core_components as dcc
@@ -230,20 +228,23 @@ def InvestmentTypegetter(typeselected):
                Input('Principal-investment-slider', 'value'),
                Input('GrowthRate-slider', 'value'),
                Input('Inflation-slider', 'value'),
-               Input('TargetretirementIncome-slider', 'value')])
+               Input('TargetretirementIncome-slider', 'value'),
+               Input('Investment-type-dropdown', 'value')])
 
 
-def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,InvestmentAmount, Client_GrowthRate,Client_Inflation , Client_target_Income ):
+def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,InvestmentAmount, Client_GrowthRate,Client_Inflation , Client_target_Income,investmentType3 ):
     
     age = Client_age
     RetireMentAge = Client_Retirement_Age
     MaxDrawdown = 0.175
     MinDrawdown = 0.025
     Fundvalue = InvestmentAmount
+    RecurringContribution = InvestmentAmount
     period = RetireMentAge - age + 1 + TermInRetirement
     GrowthRate = Client_GrowthRate
     Inflation = Client_Inflation
     RealReturn = ((1+ GrowthRate)/(1+Inflation ) -1)
+    MonthlyRealreturn = (1+RealReturn)**(1/12) -1 
     N_rows = period
     N_cols = 6
     ValuesMatrix = pd.DataFrame(np.zeros((N_rows, N_cols)))
@@ -252,16 +253,30 @@ def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,Invest
     for x in range(period):
     
         if (x + age) <  RetireMentAge :
+            
             ValuesMatrix.iloc[x][0] = age + x
     
-            if x == 0 :
-                ValuesMatrix.iloc[x][1] = Fundvalue
-            else :
-                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
-    
-            ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
-            ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] 
-            ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
+            if investmentType3 == 'LumpSum':
+                
+                if x == 0 :
+                    ValuesMatrix.iloc[x][1] = Fundvalue
+                else :
+                    ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
+                
+                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
+                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] 
+                ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
+            
+            else:
+                
+                if x == 0 :
+                    ValuesMatrix.iloc[x][1] = 0
+                else :
+                    ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
+                
+                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
+                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] + RecurringContribution*(((1+MonthlyRealreturn)**12 -1)/MonthlyRealreturn) 
+                ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
     
         elif ((x + age) >=  RetireMentAge) :
         
