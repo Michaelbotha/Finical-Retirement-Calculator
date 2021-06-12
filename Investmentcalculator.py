@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
 
 import dash
 import dash_core_components as dcc
@@ -49,16 +44,16 @@ dbc.NavbarSimple(
     brand_href="#",
     color="#3edbf0",
     dark=True,
-),   
+),
         html.P(
             children="Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last. We aim to assist our subscribers and broader society in the financial planning process through our range of financial calculators.  ",className="header-description"),
-    
+
   html.Div([
-     
-    html.P(children="Please select the inputs applicable to you below",className="Graph-header"),  
+
+    html.P(children="Please select the inputs applicable to you below",className="Graph-header"),
     dbc.Row([
-        
-        html.Div([html.P(children="Do you plan to save a lump-sum amount or save recurring monthly contributions:",className="InDivText")], className = 'InvestmentTypeDiv'),        
+
+        html.Div([html.P(children="Do you plan to save a lump-sum amount or save recurring monthly contributions:",className="InDivText")], className = 'InvestmentTypeDiv'),
         html.Div([
             dcc.Dropdown(
                 id='Investment-type-dropdown',
@@ -68,29 +63,29 @@ dbc.NavbarSimple(
                 ],
                 value='LumpSum'
             ),
-        
+
         ]
         #, style = {'margin-left': '20px ', 'padding':'0px 0px'}
         ),
-        
+
         #html.Col([
         #    html.Div(id='Age-output-container',children = 'Asset management fees',className = 'MySlider'),
         #    dbc.Input(id="AssetManageFees", placeholder="2%", type="number")
         #]),
 
-    
+
     ],align="center" ,justify="center", style = {'margin':'0px'}),
-  
+
   ]),
-      
+
     html.P(children="Investment horison factors",className="Graph-header"),
-    
+
     html.Div([
-    
+
     dbc.Row([
-    
+
         dbc.Col([
-            html.I(className="fas fa-child fa-3x"), 
+            html.I(className="fas fa-child fa-3x"),
             html.Div(id='Age-output-container',className = 'MySlider'),
             dcc.Slider(
                 id='Age-slider',
@@ -98,9 +93,9 @@ dbc.NavbarSimple(
                 max=64,
                 step=1,
                 value=25,
-            ),    
-         ],className = 'MySlider'),  
-    
+            ),
+         ],className = 'MySlider'),
+
         dbc.Col([
             html.I(className="fas fa-hands-helping fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
             html.Div(id='RetAge-output-container' ,className = 'MySlider'),
@@ -111,12 +106,12 @@ dbc.NavbarSimple(
                     step=1,
                     value=55,
                 ),
-        ],className = 'MySlider'), 
-        
-                
+        ],className = 'MySlider'),
+
+
         dbc.Col([
             html.I(className="fas fa-umbrella fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
-            html.Div(id='LifeExpectancy-output-container' ,className = 'MySlider'), 
+            html.Div(id='LifeExpectancy-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='LifeExpectancy-investment-slider',
                     min = 15,
@@ -125,23 +120,23 @@ dbc.NavbarSimple(
                     value=15,
                 ),
             ],className = 'MySlider'),
-    
+
         ] , no_gutters = True ,style = {'padding':'30px'} ,align="center" ,justify="center"),
-      
+
       ]),
-    
-    
+
+
     html.Div([
-    
+
         html.P(children="Economic growth factors",className="Graph-header"),
-    
+
     dbc.Row([
-        
-        dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'), 
-        
+
+        dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'),
+
         dbc.Col([
-            
-            html.I(className="fas fa-seedling fa-3x", style = {'display': 'inline-block', 'width': '100%'}), 
+
+            html.I(className="fas fa-seedling fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
             html.Div(id='GrowthRate-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='GrowthRate-slider',
@@ -153,9 +148,9 @@ dbc.NavbarSimple(
             ],className = 'MySlider'),
 
 
-        dbc.Col([ 
-            html.I(className="fas fa-shopping-basket fa-3x", style = {'display': 'inline-block', 'width': '100%'}), 
-            html.Div(id='Inflation-output-container' ,className = 'MySlider'),    
+        dbc.Col([
+            html.I(className="fas fa-shopping-basket fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
+            html.Div(id='Inflation-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='Inflation-slider',
                     min = 0,
@@ -167,7 +162,7 @@ dbc.NavbarSimple(
 
         dbc.Col([
             html.I(className="fas fa-coins fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
-            html.Div(id='TargetretirementIncome-output-container' ,className = 'MySlider'),         
+            html.Div(id='TargetretirementIncome-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='TargetretirementIncome-slider',
                     min = 1000,
@@ -176,34 +171,34 @@ dbc.NavbarSimple(
                     value=1000,
                 ),
             ]),
-        
+
             ], style = {'padding':'30px' , 'margin':'0px'} ,align="center" ,justify="center"),
-        
+
         ],className = 'MySlider'),
-        
- 
+
+
         dbc.Col([
-            html.P(children="Projected retirement assets (in today's terms)",className="Graph-header"), 
+            html.P(children="Projected retirement assets (in today's terms)",className="Graph-header"),
             dcc.Graph( id='Projected-retirement-assets',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px'}
      ),
-    
+
        dbc.Col([
-        html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"), 
+        html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"),
         dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ],style = {'margin': '0px', 'padding':'0px 0px'})
-    
-]) 
+
+])
 
 
 @app.callback(Output('AmountsliderType-output-container', 'children')
               ,Input('Investment-type-dropdown', 'value'))
 
 def InvestmentTypegetter(typeselected):
-    
+
     if typeselected == 'LumpSum':
-        
+
         slidervalues = dbc.Col([
             html.I(className="far fa-money-bill-alt fa-3x"),
-            html.Div(id='Principal-output-container' ,className = 'MySlider'),    
+            html.Div(id='Principal-output-container' ,className = 'MySlider'),
                             dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 100000,
@@ -213,10 +208,10 @@ def InvestmentTypegetter(typeselected):
                                 )])
 
     else:
-        
+
         slidervalues = dbc.Col([
             html.I(className="far fa-money-bill-alt fa-3x"),
-            html.Div(id='Principal-output-container' ,className = 'MySlider'),    
+            html.Div(id='Principal-output-container' ,className = 'MySlider'),
                             dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 500,
@@ -224,7 +219,7 @@ def InvestmentTypegetter(typeselected):
                                     step= 100,
                                     value= 1000,
                                 )])
-        
+
     return slidervalues
 
 
@@ -248,7 +243,7 @@ def InvestmentTypegetter(typeselected):
 
 
 def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,InvestmentAmount, Client_GrowthRate,Client_Inflation , Client_target_Income,investmentType3 ):
-    
+
     age = Client_age
     RetireMentAge = Client_Retirement_Age
     MaxDrawdown = 0.175
@@ -259,78 +254,78 @@ def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,Invest
     GrowthRate = Client_GrowthRate
     Inflation = Client_Inflation
     RealReturn = ((1+ GrowthRate)/(1+Inflation ) -1)
-    MonthlyRealreturn = (1+RealReturn)**(1/12) -1 
+    MonthlyRealreturn = (1+RealReturn)**(1/12) -1
     N_rows = period
     N_cols = 6
     ValuesMatrix = pd.DataFrame(np.zeros((N_rows, N_cols)))
     TargetIncome = Client_target_Income
 
     for x in range(period):
-    
+
         if (x + age) <  RetireMentAge :
-            
+
             ValuesMatrix.iloc[x][0] = age + x
-    
+
             if investmentType3 == 'LumpSum':
-                
+
                 if x == 0 :
                     ValuesMatrix.iloc[x][1] = Fundvalue
                 else :
                     ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
-                
+
                 ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
-                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] 
+                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
                 ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
-            
+
             else:
-                
+
                 if x == 0 :
                     ValuesMatrix.iloc[x][1] = 0
                 else :
                     ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
-                
+
                 ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
-                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] + RecurringContribution*(((1+MonthlyRealreturn)**12 -1)/MonthlyRealreturn) 
+                ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1] + RecurringContribution*(((1+MonthlyRealreturn)**12 -1)/MonthlyRealreturn)
                 ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
-    
+
         elif ((x + age) >=  RetireMentAge) :
-        
+
             ValuesMatrix.iloc[x][0] = age + x
-            
-        
+
+
             if (((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) <= MaxDrawdown) & ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) >= MinDrawdown)) :
                 ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3] - 12*TargetIncome
                 ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
                 ValuesMatrix.iloc[x][4] = TargetIncome
-        
+
             elif ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) > MaxDrawdown):
                 ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]*(1-MaxDrawdown)
                 ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
                 ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]*MaxDrawdown/12
-        
+
             elif ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) < MinDrawdown):
                 ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]*(1-MinDrawdown)
                 ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
                 ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]*MinDrawdown/12
-            
+
             ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
-            
+
     ValuesMatrix = ValuesMatrix.rename(columns = {0: 'Age', 1: 'Start fund value' , 2: 'Growth', 3: 'Retirement fund value', 4: 'Retirement income', 5: 'Real retirement fund value'}, inplace = False)
-    
+
     RetirementGraph = px.bar(ValuesMatrix, x= 'Age', y='Real retirement fund value')
 
-    
+
     RetirementIncome = px.bar(ValuesMatrix[ValuesMatrix['Age'] >= Client_Retirement_Age], x= 'Age', y= 'Retirement income')
 
-    
+
     #Formatting outputs
     Client_GrowthRate = round(Client_GrowthRate*100,1)
     Client_Inflation = round(Client_Inflation*100,1)
-    
-    
+
+
     return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You will live {} years in retirement'.format(TermInRetirement),'You want to invest R{}'.format(InvestmentAmount) , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) , 'You require monthly income of R{} in retirement'.format(Client_target_Income), RetirementGraph, RetirementIncome
 
 
@@ -348,4 +343,3 @@ def display_page(pathname):
 
 if __name__ == "__main__":
     app.run_server(debug=False)
-
