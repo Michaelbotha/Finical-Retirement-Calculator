@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[ ]:
 
 
 import dash
@@ -20,9 +20,10 @@ SATaxi_LOGO = "https://cdn0.iconfinder.com/data/icons/cars-and-delivery/512/mini
 
 external_stylesheets = [
     {
-        "href": "https://fonts.googleapis.com/css2?"
-        "family=Lato:wght@400;700&display=swap",
-        "rel": "stylesheet",
+    'href': 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+    'rel': 'stylesheet',
+    'integrity': 'sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf',
+    'crossorigin': 'anonymous',
     },
 ]
 
@@ -34,7 +35,7 @@ server = app.server
 
 app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content',style = {'margin':'0px' ,'padding':'0px' })
 ])
 
 
@@ -71,9 +72,14 @@ dbc.NavbarSimple(
         ]
         #, style = {'margin-left': '20px ', 'padding':'0px 0px'}
         ),
+        
+        #html.Col([
+        #    html.Div(id='Age-output-container',children = 'Asset management fees',className = 'MySlider'),
+        #    dbc.Input(id="AssetManageFees", placeholder="2%", type="number")
+        #]),
 
     
-    ],align="center" ,justify="center"),
+    ],align="center" ,justify="center", style = {'margin':'0px'}),
   
   ]),
       
@@ -84,7 +90,7 @@ dbc.NavbarSimple(
     dbc.Row([
     
         dbc.Col([
-     
+            html.I(className="fas fa-child fa-3x"), 
             html.Div(id='Age-output-container',className = 'MySlider'),
             dcc.Slider(
                 id='Age-slider',
@@ -93,10 +99,10 @@ dbc.NavbarSimple(
                 step=1,
                 value=25,
             ),    
-         ]),  
+         ],className = 'MySlider'),  
     
         dbc.Col([
-    
+            html.I(className="fas fa-hands-helping fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
             html.Div(id='RetAge-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='RetAge-slider',
@@ -105,10 +111,11 @@ dbc.NavbarSimple(
                     step=1,
                     value=55,
                 ),
-        ]), 
+        ],className = 'MySlider'), 
         
                 
         dbc.Col([
+            html.I(className="fas fa-umbrella fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
             html.Div(id='LifeExpectancy-output-container' ,className = 'MySlider'), 
             dcc.Slider(
                     id='LifeExpectancy-investment-slider',
@@ -117,7 +124,7 @@ dbc.NavbarSimple(
                     step=1,
                     value=15,
                 ),
-            ]),
+            ],className = 'MySlider'),
     
         ] , no_gutters = True ,style = {'padding':'30px'} ,align="center" ,justify="center"),
       
@@ -133,6 +140,8 @@ dbc.NavbarSimple(
         dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'), 
         
         dbc.Col([
+            
+            html.I(className="fas fa-seedling fa-3x", style = {'display': 'inline-block', 'width': '100%'}), 
             html.Div(id='GrowthRate-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='GrowthRate-slider',
@@ -141,10 +150,11 @@ dbc.NavbarSimple(
                     step=0.005,
                     value= 0.07,
                 ),
-            ]),
+            ],className = 'MySlider'),
 
 
-        dbc.Col([    
+        dbc.Col([ 
+            html.I(className="fas fa-shopping-basket fa-3x", style = {'display': 'inline-block', 'width': '100%'}), 
             html.Div(id='Inflation-output-container' ,className = 'MySlider'),    
             dcc.Slider(
                     id='Inflation-slider',
@@ -153,9 +163,10 @@ dbc.NavbarSimple(
                     step= 0.005,
                     value= 0.05,
                 ),
-            ]),
+            ],className = 'MySlider'),
 
         dbc.Col([
+            html.I(className="fas fa-coins fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
             html.Div(id='TargetretirementIncome-output-container' ,className = 'MySlider'),         
             dcc.Slider(
                     id='TargetretirementIncome-slider',
@@ -166,9 +177,9 @@ dbc.NavbarSimple(
                 ),
             ]),
         
-            ], style = {'padding':'30px'} ,align="center" ,justify="center"),
+            ], style = {'padding':'30px' , 'margin':'0px'} ,align="center" ,justify="center"),
         
-        ]),
+        ],className = 'MySlider'),
         
  
         dbc.Col([
@@ -190,7 +201,9 @@ def InvestmentTypegetter(typeselected):
     
     if typeselected == 'LumpSum':
         
-        slidervalues = dbc.Col([html.Div(id='Principal-output-container' ,className = 'MySlider'),    
+        slidervalues = dbc.Col([
+            html.I(className="far fa-money-bill-alt fa-3x"),
+            html.Div(id='Principal-output-container' ,className = 'MySlider'),    
                             dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 100000,
@@ -201,7 +214,9 @@ def InvestmentTypegetter(typeselected):
 
     else:
         
-        slidervalues = dbc.Col([html.Div(id='Principal-output-container' ,className = 'MySlider'),    
+        slidervalues = dbc.Col([
+            html.I(className="far fa-money-bill-alt fa-3x"),
+            html.Div(id='Principal-output-container' ,className = 'MySlider'),    
                             dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 500,
