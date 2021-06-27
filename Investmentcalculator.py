@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[146]:
+
 
 import dash
 import dash_core_components as dcc
@@ -8,6 +13,10 @@ import plotly.express as px
 import urllib.parse
 from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
+import base64
+
+image_filename = 'FinicalLogoWithoutWording.png' # replace with your own image
+encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 
 
@@ -34,24 +43,192 @@ app.layout = html.Div(children=[
 ])
 
 
-page_2_layout = html.Div([
-
-dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Investment calculator", href="/Investment calculator")),
+page_1_layout = html.Div([
+    
+dbc.Navbar(
+    [
+        html.A(
+            dbc.Row(
+                [
+                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
+                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),
+                    dbc.DropdownMenu(right=True,
+                        label="Choose your calculator",
+                        children=[
+                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                        ],
+                    ),
+                
+                ]
+                ,align="center"
+                ,justify="center"
+                ,no_gutters=True
+            ),
+        ),
     ],
-    brand="Finical advisory",
-    brand_href="#",
-    color="#3edbf0",
+    color="#3C415C",
+    dark=True,
+),
+
+    html.P(
+            children="The impact of compound interest could either set you on the road to riches or spiraling into debt you may never recover from. One such example is your mortgage. Most people spend their whole lifes paying off their mortgage and end up paying more than twice the value of the their home. By paying an extra amount each month, you could save hundreds of thousands of rands over your life time.",className="header-description"),
+
+  html.Div([
+
+
+    dbc.Row([
+        
+        dbc.Col([
+            html.P(children="Please input your mortgage details below",className="Graph-header", style = {'margin':'0px','margin-bottom':'50px','padding':'0px'}),
+            
+            dbc.Col([
+                html.Div(id='LoanAmount-output-container',className = 'MySlider WordingColor'),
+                dbc.Input(id="Amountinput", placeholder="Mortgage amount outstanding", type="Number", min = 0, max = 10000000, value= 1000000, style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
+            ],className = 'MySlider'),
+            
+            dbc.Col([
+                html.Div(id='InterestRate-output-container',className = 'MySlider WordingColor'),
+                dbc.Input(id="InterestRateinput", placeholder='7%', type="Number", min = 0, max = 20, value= 5, style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
+            ],className = 'MySlider'),
+            
+            dbc.Col([
+                html.Div(id='LoanTerm-output-container',className = 'MySlider WordingColor'),
+                dbc.Input(id="RemainingLoanTerm", placeholder='15', type="Number", min = 0, max = 40, value= 20 , style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
+            ],className = 'MySlider'),
+                    
+            dbc.Col([
+                html.Div(id='AdditionalContribution-output-container',className = 'MySlider WordingColor'),
+                dbc.Input(id="AdditionalContribution", placeholder='R 1000', type="Number", min = 0, max = 20000, value= 0 , style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
+            ],className = 'MySlider'),
+            
+        ],style = {'margin': '0px', 'padding':'0px 0px','border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C' ,'background-color':'White'}),
+        
+            
+        dbc.Col([
+            html.P(children="Outstanding loan amount",className="Graph-header"),
+            dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
+         ),
+        
+                
+        dbc.Col([
+            html.P(children="Payment details",className="Graph-header"),
+            dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
+         ),
+        
+        ],justify="center", style = {'margin':'0px' , 'padding': '0px'}
+            
+        ),
+
+    ]),
+
+        dbc.Col([
+            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
+        ], style = { 'width':'50%' ,'margin': 'auto', 'padding':'100px 0px 0px 300px', 'color':'white' }),
+
+])
+
+@app.callback([Output('LoanAmount-output-container', 'children'),
+               Output('InterestRate-output-container', 'children'),
+               Output('LoanTerm-output-container', 'children'),
+               Output('AdditionalContribution-output-container', 'children'),
+               Output('Graph-Loan-Amount', 'figure'),
+               Output('PaymentDetails-Amount', 'figure')]
+              ,[Input('Amountinput', 'value')
+               ,Input('InterestRateinput', 'value')
+               ,Input('RemainingLoanTerm', 'value')
+               ,Input('AdditionalContribution', 'value')])
+
+def LoanData(OutstandingLoanAmount, InterestRate, LoanTerm, ExtraAmountPaidOff):
+    
+    OutstandingLoanTerm = int(LoanTerm)
+    ExtraPaymentMade = int(ExtraAmountPaidOff)
+    N_rows = 12*OutstandingLoanTerm
+    N_cols = 6
+    LoanValue = int(OutstandingLoanAmount)
+    MortgageInterest = int(InterestRate)
+    LoanDataValues = pd.DataFrame(np.zeros((N_rows, N_cols)))
+    Bar1Data = pd.DataFrame(np.zeros((1, 3)))
+    MonthlyInterestRate = (1+int(MortgageInterest)/100)**(1/12) - 1
+    AnnuityFactor = ((1-(1+MonthlyInterestRate)**(-N_rows))/MonthlyInterestRate)
+    MonthlyInstallment = LoanValue/AnnuityFactor
+    
+    for x in range(N_rows):
+        
+        LoanDataValues.iloc[x][1] = x
+        
+        if x == 0 :
+            LoanDataValues.iloc[x][2] = LoanValue
+            LoanDataValues.iloc[x][3] = LoanValue*MonthlyInterestRate
+            LoanDataValues.iloc[x][4] = LoanDataValues.iloc[x][2] + LoanDataValues.iloc[x][3] - MonthlyInstallment
+            LoanDataValues.iloc[x][5] = MonthlyInstallment
+        
+        elif (LoanDataValues.iloc[x-1][4] < (MonthlyInstallment + ExtraPaymentMade) ):
+            LoanDataValues.iloc[x][2] = LoanDataValues.iloc[x-1][4]
+            LoanDataValues.iloc[x][3] = LoanDataValues.iloc[x][2]*MonthlyInterestRate
+            LoanDataValues.iloc[x][4] = 0
+            LoanDataValues.iloc[x][5] = LoanDataValues.iloc[x-1][4]
+        
+        elif (LoanDataValues.iloc[x-1][4] == 0 ):
+            LoanDataValues.iloc[x][2] = LoanDataValues.iloc[x-1][4]
+            LoanDataValues.iloc[x][3] = LoanDataValues.iloc[x][2]*MonthlyInterestRate
+            LoanDataValues.iloc[x][4] = 0
+            LoanDataValues.iloc[x][5] = 0
+        
+        else:
+            LoanDataValues.iloc[x][2] = LoanDataValues.iloc[x-1][4]
+            LoanDataValues.iloc[x][3] = LoanDataValues.iloc[x][2]*MonthlyInterestRate
+            LoanDataValues.iloc[x][4] = LoanDataValues.iloc[x][2] + LoanDataValues.iloc[x][3] - MonthlyInstallment - ExtraPaymentMade
+            LoanDataValues.iloc[x][5] = MonthlyInstallment + ExtraPaymentMade
+    
+    LoanDataValues = LoanDataValues.rename(columns = {1: 'Months into loan' , 2: 'Start Loan outstanding', 3: 'Interest paid', 4: 'Outstanding loan amount', 5:'Installments Made'}, inplace = False)
+    OriginalLoanTermsGraph = px.line(LoanDataValues, x= 'Months into loan', y='Outstanding loan amount')
+    
+    Installment = ['Annual installment', (MonthlyInstallment + ExtraPaymentMade)*12]
+    InterestPaid = ['Interest paid', LoanDataValues['Interest paid'].sum()]
+    Totalpaymentsmade = ['Total payments made', LoanDataValues['Interest paid'].sum() + LoanValue]
+    Bar1Data = pd.DataFrame([Installment,InterestPaid,Totalpaymentsmade])
+
+    Bar1Data = Bar1Data.rename(columns = {0: 'Payment description', 1: 'Amount'})
+    
+    LoaninfoGraph = px.bar(Bar1Data, x= 'Payment description' ,y='Amount')
+
+    return 'You have R{} outstanding on your mortgage'.format(OutstandingLoanAmount), 'You pay a rate of interest rate of {}% '.format(InterestRate), 'Your outstanding loan term is {} years '.format(LoanTerm), 'You are paying R {} extra per month'.format(ExtraAmountPaidOff) , OriginalLoanTermsGraph, LoaninfoGraph
+
+
+page_2_layout = html.Div([
+    
+dbc.Navbar(
+    [
+        html.A(
+            dbc.Row(
+                [
+                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
+                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),                 
+                    dbc.DropdownMenu(right=True,
+                        label="Choose your calculator",
+                        children=[
+                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                        ],
+                    ),
+                ]
+                ,align="center"
+                ,justify="center"
+                ,no_gutters=True
+            ),
+        ),
+    ],
+    color="#3C415C",
     dark=True,
 ),
         html.P(
-            children="Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last. We aim to assist our subscribers and broader society in the financial planning process through our range of financial calculators.  ",className="header-description"),
+            children="Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last in retirement. The below investment calculator allows you to guage the amount of retirement assets you may accumulate under different scenarios and assumes that you will purchase a retirement income anuity ,from which you will draw a monthly income, from a trusted financial services provider.",className="header-description"),
 
   html.Div([
 
     html.P(children="Please select the inputs applicable to you below",className="Graph-header"),
-    dbc.Row([
+    dbc.Row([  
 
         html.Div([html.P(children="Do you plan to save a lump-sum amount or save recurring monthly contributions:",className="InDivText")], className = 'InvestmentTypeDiv'),
         html.Div([
@@ -166,9 +343,9 @@ dbc.NavbarSimple(
             dcc.Slider(
                     id='TargetretirementIncome-slider',
                     min = 1000,
-                    max= 50000,
-                    step=500,
-                    value=1000,
+                    max= 100000,
+                    step=1000,
+                    value=10000,
                 ),
             ]),
 
@@ -184,9 +361,14 @@ dbc.NavbarSimple(
 
        dbc.Col([
         html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"),
-        dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ],style = {'margin': '0px', 'padding':'0px 0px'})
+        dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ],style = {'margin': '0px', 'padding':'0px 0px'}),
+    
+            
+    dbc.Col([
+            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
+        ], style = { 'width':'50%' ,'margin': 'auto', 'padding':'100px 0px 0px 300px', 'color':'white' }),
 
-])
+], style = {'background-color': '#2978B5'})
 
 
 @app.callback(Output('AmountsliderType-output-container', 'children')
@@ -313,33 +495,31 @@ def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,Invest
 
             ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
 
+    
     ValuesMatrix = ValuesMatrix.rename(columns = {0: 'Age', 1: 'Start fund value' , 2: 'Growth', 3: 'Retirement fund value', 4: 'Retirement income', 5: 'Real retirement fund value'}, inplace = False)
-
     RetirementGraph = px.bar(ValuesMatrix, x= 'Age', y='Real retirement fund value')
-
-
     RetirementIncome = px.bar(ValuesMatrix[ValuesMatrix['Age'] >= Client_Retirement_Age], x= 'Age', y= 'Retirement income')
-
 
     #Formatting outputs
     Client_GrowthRate = round(Client_GrowthRate*100,1)
     Client_Inflation = round(Client_Inflation*100,1)
 
 
-    return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You will live {} years in retirement'.format(TermInRetirement),'You want to invest R{}'.format(InvestmentAmount) , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) , 'You require monthly income of R{} in retirement'.format(Client_target_Income), RetirementGraph, RetirementIncome
+    return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You will live {} years in retirement'.format(TermInRetirement),'You want to invest R{}'.format(InvestmentAmount) , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) , 'Required monthly income in retirement: R{} '.format(Client_target_Income), RetirementGraph, RetirementIncome
 
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 
 def display_page(pathname):
-    if pathname == '/ActuarialDashboard':
+    if pathname == '/InvestmentCalculator':
         return page_2_layout
-    elif pathname == '/TimeSeriesAnalysis':
+    elif pathname == '/Mortgagecalcs':
         return page_1_layout
     else:
-        return page_2_layout
+        return page_1_layout
 
 
 if __name__ == "__main__":
     app.run_server(debug=False)
+

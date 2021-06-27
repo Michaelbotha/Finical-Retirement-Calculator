@@ -58,9 +58,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #DBE6FD;
   text-align: left;
-  background-color: #fff;
+  background-color: #0A81AB;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -10362,7 +10362,7 @@ body {
     margin: 4px auto;
     text-align: center;
     font-size: 25px;
-    max-width: 1600px;
+    max-width: 1900px;
     padding: 40px 20px ;
 }
 
@@ -10510,11 +10510,15 @@ background-color: #77acf1;
   color: white;
 }
 
+.WordingColor {
+  color: #3C415C;
+}
+
 .Graph-header {
   text-align: center;
   font-size: 25px;
   color: white;
-  background-color:#3edbf0;
+  background-color:#3C415C;
   margin: 0;
 }
 
@@ -10525,9 +10529,17 @@ background-color: #77acf1;
   height: 40px;
   margin: 0;
   justify-content: center;
+  border-right:
+
 }
 
 .InvestmentTypeDiv {
   width: auto;
   padding: 30px;
+}
+
+p {
+margin:0px;
+margin-block-start:0px;
+margin-block-end:0px;
 }
