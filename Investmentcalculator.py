@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[12]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[146]:
 
 
@@ -52,13 +58,6 @@ dbc.Navbar(
                 [
                     dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
                     dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),
-                    dbc.DropdownMenu(right=True,
-                        label="Choose your calculator",
-                        children=[
-                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                        ],
-                    ),
                 
                 ]
                 ,align="center"
@@ -66,6 +65,15 @@ dbc.Navbar(
                 ,no_gutters=True
             ),
         ),
+                            
+        dbc.DropdownMenu(right=True,
+                        label="Choose your calculator",
+                        children=[
+                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                        ],
+                         style = {'width':'50%', 'margin':'auto'}
+                    ),
     ],
     color="#3C415C",
     dark=True,
@@ -124,7 +132,7 @@ dbc.Navbar(
 
         dbc.Col([
             dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = { 'width':'50%' ,'margin': 'auto', 'padding':'100px 0px 0px 300px', 'color':'white' }),
+        ], style = {'padding':'100px 0px 0px 450px', 'color':'white' }),
 
 ])
 
@@ -205,19 +213,23 @@ dbc.Navbar(
                 [
                     dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
                     dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),                 
-                    dbc.DropdownMenu(right=True,
-                        label="Choose your calculator",
-                        children=[
-                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                        ],
-                    ),
+
                 ]
                 ,align="center"
                 ,justify="center"
                 ,no_gutters=True
             ),
         ),
+        
+                            
+        dbc.DropdownMenu(right=True,
+                        label="Choose your calculator",
+                        children=[
+                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                        ],
+                         style = {'margin':'auto','width':'50%'}
+                    ),
     ],
     color="#3C415C",
     dark=True,
@@ -366,7 +378,7 @@ dbc.Navbar(
             
     dbc.Col([
             dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = { 'width':'50%' ,'margin': 'auto', 'padding':'100px 0px 0px 300px', 'color':'white' }),
+        ], style = {'padding':'100px 0px 0px 450px', 'color':'white' }),
 
 ], style = {'background-color': '#2978B5'})
 
