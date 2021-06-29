@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[33]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[12]:
 
 
@@ -56,24 +62,27 @@ dbc.Navbar(
         html.A(
             dbc.Row(
                 [
-                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
-                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),
+                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"width":"auto",'margin':'0px', 'margin-left':'20%'}),
+                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)",style = {"width":"auto" , 'margin':'0%','padding':'0px'}), style = {"width":"auto" , 'margin':'0%','padding':'0px'}),         
+                    dbc.Col(
+                            
+                        dbc.DropdownMenu(right=True,
+                                                 label="Choose your calculator",
+                                                 children=[
+                                                     dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                                                     dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                                                 ],
+                                                 style = {'width':'50%', 'margin':'auto'}
+                                                ),
+                    style = {'margin-left':'30%'})
                 
                 ]
                 ,align="center"
                 ,justify="center"
                 ,no_gutters=True
-            ),
+            ), style = {'width':'100%', 'margin':'0px','padding-right':'10%'}
         ),
-                            
-        dbc.DropdownMenu(right=True,
-                        label="Choose your calculator",
-                        children=[
-                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                        ],
-                         style = {'width':'50%', 'margin':'auto'}
-                    ),
+
     ],
     color="#3C415C",
     dark=True,
@@ -88,7 +97,7 @@ dbc.Navbar(
     dbc.Row([
         
         dbc.Col([
-            html.P(children="Please input your mortgage details below",className="Graph-header", style = {'margin':'0px','margin-bottom':'50px','padding':'0px'}),
+            html.P(children="Please input your mortgage details below",className="Graph-header", style = {'margin':'0px','margin-bottom':'20px','font-size':'20px'}),
             
             dbc.Col([
                 html.Div(id='LoanAmount-output-container',className = 'MySlider WordingColor'),
@@ -114,13 +123,13 @@ dbc.Navbar(
         
             
         dbc.Col([
-            html.P(children="Outstanding loan amount",className="Graph-header"),
+            html.P(children="Outstanding loan amount",className="Graph-header",style = {'font-size':'20px'}),
             dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
          ),
         
                 
         dbc.Col([
-            html.P(children="Payment details",className="Graph-header"),
+            html.P(children="Payment details",className="Graph-header",style = {'font-size':'20px'}),
             dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
          ),
         
@@ -131,8 +140,8 @@ dbc.Navbar(
     ]),
 
         dbc.Col([
-            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = {'padding':'100px 0px 0px 450px', 'color':'white' }),
+            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White','padding-left':'40%' })], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
+        ], style = {'padding':'0px', 'color':'white', 'margin':'auto','width':'50%'})
 
 ])
 
@@ -211,25 +220,27 @@ dbc.Navbar(
         html.A(
             dbc.Row(
                 [
-                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"padding-left":"400px", 'margin':'0px'}),
-                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)"), style = {"padding-left":"10px" , 'margin':'0px'}),                 
-
+                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"width":"auto",'margin':'0px', 'margin-left':'20%'}),
+                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)",style = {"width":"auto" , 'margin':'0%','padding':'0px'}), style = {"width":"auto" , 'margin':'0%','padding':'0px'}),         
+                    dbc.Col(
+                            
+                        dbc.DropdownMenu(right=True,
+                                                 label="Choose your calculator",
+                                                 children=[
+                                                     dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
+                                                     dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
+                                                 ],
+                                                 style = {'width':'50%', 'margin':'auto'}
+                                                ),
+                    style = {'margin-left':'30%'})
+                
                 ]
                 ,align="center"
                 ,justify="center"
                 ,no_gutters=True
-            ),
+            ), style = {'width':'100%', 'margin':'0px','padding-right':'10%'}
         ),
-        
-                            
-        dbc.DropdownMenu(right=True,
-                        label="Choose your calculator",
-                        children=[
-                            dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                            dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                        ],
-                         style = {'margin':'auto','width':'50%'}
-                    ),
+
     ],
     color="#3C415C",
     dark=True,
@@ -376,9 +387,9 @@ dbc.Navbar(
         dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ],style = {'margin': '0px', 'padding':'0px 0px'}),
     
             
-    dbc.Col([
-            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White'})], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = {'padding':'100px 0px 0px 450px', 'color':'white' }),
+        dbc.Col([
+            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White','padding-left':'40%' })], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
+        ], style = {'padding':'0px', 'color':'white', 'margin':'auto','width':'50%'})
 
 ], style = {'background-color': '#2978B5'})
 
