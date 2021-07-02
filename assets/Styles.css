@@ -10520,6 +10520,7 @@ background-color: #77acf1;
   color: white;
   background-color:#3C415C;
   margin: 0;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
 .InDivText {

@@ -1,19 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[33]:
+# In[ ]:
 
 
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[12]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[146]:
 
 
 import dash
@@ -59,46 +49,74 @@ page_1_layout = html.Div([
     
 dbc.Navbar(
     [
-        html.A(
-            dbc.Row(
-                [
-                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"width":"auto",'margin':'0px', 'margin-left':'20%'}),
-                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)",style = {"width":"auto" , 'margin':'0%','padding':'0px'}), style = {"width":"auto" , 'margin':'0%','padding':'0px'}),         
-                    dbc.Col(
-                            
-                        dbc.DropdownMenu(right=True,
-                                                 label="Choose your calculator",
-                                                 children=[
-                                                     dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                                                     dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                                                 ],
-                                                 style = {'width':'50%', 'margin':'auto'}
-                                                ),
-                    style = {'margin-left':'30%'})
+    
+                html.A(
+                    html.Img(
+                        src='data:image/png;base64,{}'.format(encoded_image.decode())
+                        ,height='70px'
+                        ,width='70px'
+                        ,className = "float-left"
+                    )
+                    ,className ="nav-link float-left"
+                ),
                 
-                ]
-                ,align="center"
-                ,justify="center"
-                ,no_gutters=True
-            ), style = {'width':'100%', 'margin':'0px','padding-right':'10%'}
-        ),
+        
+                
+        html.Ul(
+            
+            html.Ul(
+                                
+                html.A(
+                    dbc.NavbarBrand("Finical advisory (ltd)")
+                    ,style = {"width":"auto" , 'margin':'0%','padding':'0px'}
+                    ,className =" navbar-nav float-left no-arrow"
+                )
+                
+                
+                ,className ="nav-item dropdown no-arrow"
 
-    ],
-    color="#3C415C",
-    dark=True,
+            )
+            
+            ,className ="nav navbar-nav ml-auto no-arrow" 
+        ),
+        
+                                
+        dbc.DropdownMenu(right=True,                             
+                         label="Choose your calculator",                    
+                         children=[                      
+                             dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),                     
+                             dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),                 
+                         ]                  
+                         ,className = 'float-right'
+                                                   
+                        ),
+        
+
+    ]
+    ,color="#3C415C"
+    ,dark=True
+    ,className = "shadow"
+    ,style = {"padding":'0% 10%'}
 ),
 
     html.P(
             children="The impact of compound interest could either set you on the road to riches or spiraling into debt you may never recover from. One such example is your mortgage. Most people spend their whole lifes paying off their mortgage and end up paying more than twice the value of the their home. By paying an extra amount each month, you could save hundreds of thousands of rands over your life time.",className="header-description"),
 
-  html.Div([
+  #html.Div([
 
 
-    dbc.Row([
+    #html.Div([
+        html.Div([
+
         
-        dbc.Col([
-            html.P(children="Please input your mortgage details below",className="Graph-header", style = {'margin':'0px','margin-bottom':'20px','font-size':'20px'}),
+        html.Div([
             
+            html.Div( 
+                html.P(children="Please input your mortgage details below", style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
+                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                , style = {'background-color':'#3C415C'}
+            ),
+
             dbc.Col([
                 html.Div(id='LoanAmount-output-container',className = 'MySlider WordingColor'),
                 dbc.Input(id="Amountinput", placeholder="Mortgage amount outstanding", type="Number", min = 0, max = 10000000, value= 1000000, style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
@@ -119,31 +137,52 @@ dbc.Navbar(
                 dbc.Input(id="AdditionalContribution", placeholder='R 1000', type="Number", min = 0, max = 20000, value= 0 , style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
             ],className = 'MySlider'),
             
-        ],style = {'margin': '0px', 'padding':'0px 0px','border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C' ,'background-color':'White'}),
+        ],className = 'card-body text-center', style = {'margin': '0px', 'padding':'0px 0px'}),
         
             
-        dbc.Col([
-            html.P(children="Outstanding loan amount",className="Graph-header",style = {'font-size':'20px'}),
-            dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
+        html.Div([
+            
+            html.Div( 
+                html.P(children="Outstanding loan amount",className="Graph-header",style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
+                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between", style = {'background-color':'#3C415C'}),
+            
+            dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False,'autosizable':True},),],className = 'card-body text-center',style = {'margin': '0px', 'padding':'0px 0px'}
          ),
         
                 
         dbc.Col([
-            html.P(children="Payment details",className="Graph-header",style = {'font-size':'20px'}),
-            dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px' ,'border-right':'20px solid', 'border-bottom':'20px solid','border-color':'#3C415C','background-color':'White'}
+            
+            html.Div( 
+                html.P(children="Payment details",className="Graph-header",style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
+                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between", style = {'background-color':'#3C415C'}),
+    
+            
+            dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False,'autosizable':True}),],className = 'card-body text-center',style = {'margin': '0px', 'padding':'0px 0px' }
          ),
         
-        ],justify="center", style = {'margin':'0px' , 'padding': '0px'}
+        #],justify="center", style = {'margin':'0px' , 'padding': '0px'}
             
-        ),
+        #),
+            
+    ], className="card shadow mb-2 lg-4" ),
+  
+  #],className="col-xl-4 col-lg-4"),
+    
+    html.Div(
+        dbc.NavLink(children = [
+            html.I(className="fab fa-linkedin fa-3x"
+                  ),
+            html.Div(html.Span('Copyright © 2020'),className = "copyright text-center my-auto")
+        ]          
+                    ,style = {'color':'White','padding':"5% 0%"}
+                    ,href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/"
+                   
+        ) 
+        ,className = "copyright text-center my-auto"
+    ),
+    
 
-    ]),
-
-        dbc.Col([
-            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White','padding-left':'40%' })], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = {'padding':'0px', 'color':'white', 'margin':'auto','width':'50%'})
-
-])
+]) 
 
 @app.callback([Output('LoanAmount-output-container', 'children'),
                Output('InterestRate-output-container', 'children'),
@@ -217,34 +256,56 @@ page_2_layout = html.Div([
     
 dbc.Navbar(
     [
-        html.A(
-            dbc.Row(
-                [
-                    dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()), height='70px',width='70px'), style = {"width":"auto",'margin':'0px', 'margin-left':'20%'}),
-                    dbc.Col(dbc.NavbarBrand("Finical advisory (ltd)",style = {"width":"auto" , 'margin':'0%','padding':'0px'}), style = {"width":"auto" , 'margin':'0%','padding':'0px'}),         
-                    dbc.Col(
-                            
-                        dbc.DropdownMenu(right=True,
-                                                 label="Choose your calculator",
-                                                 children=[
-                                                     dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),
-                                                     dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),
-                                                 ],
-                                                 style = {'width':'50%', 'margin':'auto'}
-                                                ),
-                    style = {'margin-left':'30%'})
+    
+                html.A(
+                    html.Img(
+                        src='data:image/png;base64,{}'.format(encoded_image.decode())
+                        ,height='70px'
+                        ,width='70px'
+                        ,className = "float-left"
+                    )
+                    ,className ="nav-link float-left"
+                ),
                 
-                ]
-                ,align="center"
-                ,justify="center"
-                ,no_gutters=True
-            ), style = {'width':'100%', 'margin':'0px','padding-right':'10%'}
-        ),
+        
+                
+        html.Ul(
+            
+            html.Ul(
+                                
+                html.A(
+                    dbc.NavbarBrand("Finical advisory (ltd)")
+                    ,style = {"width":"auto" , 'margin':'0%','padding':'0px'}
+                    ,className =" navbar-nav float-left no-arrow"
+                )
+                
+                
+                ,className ="nav-item dropdown no-arrow"
 
-    ],
-    color="#3C415C",
-    dark=True,
+            )
+            
+            ,className ="nav navbar-nav ml-auto no-arrow" 
+        ),
+        
+                                
+        dbc.DropdownMenu(right=True,                             
+                         label="Choose your calculator",                    
+                         children=[                      
+                             dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),                     
+                             dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),                 
+                         ]                  
+                         ,className = 'float-right'
+                                                   
+                        ),
+        
+
+    ]
+    ,color="#3C415C"
+    ,dark=True
+    ,className = "shadow"
+    ,style = {"padding":'0% 10%'}
 ),
+
         html.P(
             children="Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last in retirement. The below investment calculator allows you to guage the amount of retirement assets you may accumulate under different scenarios and assumes that you will purchase a retirement income anuity ,from which you will draw a monthly income, from a trusted financial services provider.",className="header-description"),
 
@@ -267,6 +328,8 @@ dbc.Navbar(
         ]
         #, style = {'margin-left': '20px ', 'padding':'0px 0px'}
         ),
+        
+        dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'),
 
         #html.Col([
         #    html.Div(id='Age-output-container',children = 'Asset management fees',className = 'MySlider'),
@@ -290,9 +353,15 @@ dbc.Navbar(
             dcc.Slider(
                 id='Age-slider',
                 min=25,
-                max=64,
+                max=65,
                 step=1,
-                value=25,
+                value=25,    
+                marks={
+                    25: {'label':'25' , 'style': {'color': '#F9F9F9'}},
+                    40: {'label':'40' , 'style': {'color': '#F9F9F9'}},
+                    55: {'label':'55' , 'style': {'color': '#F9F9F9'}},
+                    65: {'label':'65' , 'style': {'color': '#F9F9F9'}}
+                }
             ),
          ],className = 'MySlider'),
 
@@ -304,7 +373,14 @@ dbc.Navbar(
                     min = 55,
                     max= 80,
                     step=1,
-                    value=55,
+                    value=55,                
+                    marks={
+                        55: {'label':'55' , 'style': {'color': '#F9F9F9'}},
+                        65: {'label':'65' , 'style': {'color': '#F9F9F9'}},
+                        70: {'label':'70' , 'style': {'color': '#F9F9F9'}},
+                        80: {'label':'80' , 'style': {'color': '#F9F9F9'}}
+                
+                    }
                 ),
         ],className = 'MySlider'),
 
@@ -318,6 +394,13 @@ dbc.Navbar(
                     max= 40,
                     step=1,
                     value=15,
+                    marks={
+                        15: {'label':'15' , 'style': {'color': '#F9F9F9'}},
+                        20: {'label':'20' , 'style': {'color': '#F9F9F9'}},
+                        30: {'label':'30' , 'style': {'color': '#F9F9F9'}},
+                        40: {'label':'40' , 'style': {'color': '#F9F9F9'}}
+                
+                    }
                 ),
             ],className = 'MySlider'),
 
@@ -332,7 +415,7 @@ dbc.Navbar(
 
     dbc.Row([
 
-        dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'),
+        
 
         dbc.Col([
 
@@ -344,6 +427,13 @@ dbc.Navbar(
                     max= 0.15,
                     step=0.005,
                     value= 0.07,
+                    marks={
+                        0: {'label':'0%' , 'style': {'color': '#F9F9F9'}},
+                        0.05: {'label':'5%' , 'style': {'color': '#F9F9F9'}},
+                        0.1: {'label':'10%' , 'style': {'color': '#F9F9F9'}},
+                        0.15: {'label':'15%' , 'style': {'color': '#F9F9F9'}},
+                
+                    }
                 ),
             ],className = 'MySlider'),
 
@@ -357,6 +447,12 @@ dbc.Navbar(
                     max= 0.1,
                     step= 0.005,
                     value= 0.05,
+                    marks={
+                        0: {'label':'0%' , 'style': {'color': '#F9F9F9'}},
+                        0.05: {'label':'5%' , 'style': {'color': '#F9F9F9'}},
+                        0.075: {'label':'7.5%' , 'style': {'color': '#F9F9F9'}},
+                        0.1: {'label':'10%' , 'style': {'color': '#F9F9F9'}},
+                    }
                 ),
             ],className = 'MySlider'),
 
@@ -365,10 +461,15 @@ dbc.Navbar(
             html.Div(id='TargetretirementIncome-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='TargetretirementIncome-slider',
-                    min = 1000,
+                    min = 10000,
                     max= 100000,
                     step=1000,
                     value=10000,
+                    marks={
+                        25000: {'label':'R25 000' , 'style': {'color': '#F9F9F9'}},
+                        50000: {'label':'R50 000' , 'style': {'color': '#F9F9F9'}},
+                        75000: {'label':'R75 000' , 'style': {'color': '#F9F9F9'}},
+                    }
                 ),
             ]),
 
@@ -379,17 +480,32 @@ dbc.Navbar(
 
         dbc.Col([
             html.P(children="Projected retirement assets (in today's terms)",className="Graph-header"),
-            dcc.Graph( id='Projected-retirement-assets',config={"displayModeBar": False},),],style = {'margin': '0px', 'padding':'0px 0px'}
-     ),
+            dcc.Graph( id='Projected-retirement-assets',config={"displayModeBar": False},),]
+            ,style = {'margin': '0px', 'padding':'0px 0px'}
+            ,className = "shadow"
+     
+        ),
 
        dbc.Col([
-        html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"),
-        dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ],style = {'margin': '0px', 'padding':'0px 0px'}),
+           html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"),
+           dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ]
+           ,style = {'margin': '0px', 'padding':'0px 0px'}
+           ,className = "shadow"
+       ),
     
             
-        dbc.Col([
-            dbc.NavLink(children = [html.I(className="fab fa-linkedin fa-3x", style = {'color':'White','padding-left':'40%' })], href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/",style = { 'width':'50%' ,'margin': 'auto' })
-        ], style = {'padding':'0px', 'color':'white', 'margin':'auto','width':'50%'})
+    html.Div(
+        dbc.NavLink(children = [
+            html.I(className="fab fa-linkedin fa-3x"
+                  ),
+            html.Div(html.Span('Copyright © 2020'),className = "copyright text-center my-auto")
+        ]          
+                    ,style = {'color':'White','padding':"5% 0%"}
+                    ,href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/"
+                   
+        ) 
+        ,className = "copyright text-center my-auto"
+    ),
 
 ], style = {'background-color': '#2978B5'})
 
@@ -402,7 +518,7 @@ def InvestmentTypegetter(typeselected):
     if typeselected == 'LumpSum':
 
         slidervalues = dbc.Col([
-            html.I(className="far fa-money-bill-alt fa-3x"),
+            #html.I(className="far fa-money-bill-alt fa-3x"),
             html.Div(id='Principal-output-container' ,className = 'MySlider'),
                             dcc.Slider(
                                     id='Principal-investment-slider',
@@ -410,12 +526,18 @@ def InvestmentTypegetter(typeselected):
                                     max= 10000000,
                                     step=50000,
                                     value=100000,
+                                    marks={
+                                        100000: {'label':'R100k' , 'style': {'color': '#F9F9F9'}},
+                                        1000000: {'label':'R1 mil' , 'style': {'color': '#F9F9F9'}},
+                                        5000000: {'label':'R5 mil' , 'style': {'color': '#F9F9F9'}},
+                                        10000000: {'label':'R10 mil' , 'style': {'color': '#F9F9F9'}},
+                                    }
                                 )])
 
     else:
 
         slidervalues = dbc.Col([
-            html.I(className="far fa-money-bill-alt fa-3x"),
+            #html.I(className="far fa-money-bill-alt fa-3x"),
             html.Div(id='Principal-output-container' ,className = 'MySlider'),
                             dcc.Slider(
                                     id='Principal-investment-slider',
@@ -423,6 +545,12 @@ def InvestmentTypegetter(typeselected):
                                     max= 30000,
                                     step= 100,
                                     value= 1000,
+                                    marks={
+                                        500: {'label':'R500' , 'style': {'color': '#F9F9F9'}},
+                                        5000: {'label':'R5 000' , 'style': {'color': '#F9F9F9'}},
+                                        10000: {'label':'R10 000' , 'style': {'color': '#F9F9F9'}},
+                                        30000: {'label':'R30 000' , 'style': {'color': '#F9F9F9'}},
+                                    }
                                 )])
 
     return slidervalues
