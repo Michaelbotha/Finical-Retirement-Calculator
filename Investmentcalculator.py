@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
+# In[51]:
 
 
 import dash
@@ -16,10 +14,22 @@ import urllib.parse
 from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
 import base64
+import MyWebsiteFunctions50 as mf
 
+            
+table_header = [html.Thead(html.Tr([html.Th("Description"), html.Th("Value")]))]    
+row1 = html.Tr([html.Td("Minimum monthly installment"), html.Td(id="MonthlyInstallment")])
+row2 = html.Tr([html.Td("Total monthly installment"), html.Td(id="TotalMonthlyInstallMent")])
+row3 = html.Tr([html.Td("Total payments made"), html.Td(id="TotalPaymentsMade")])
+row4 = html.Tr([html.Td("Total interest paid"), html.Td(id="TotalInterestPaid")])              
+row5 = html.Tr([html.Td("Total interest saved"), html.Td(id="TotalInterestSaved")])                
+row6 = html.Tr([html.Td("Reduction in loan term"), html.Td(id="ReductionInLoanTerm")])
+table_body = [html.Tbody([row1, row2, row3, row4,row5,row6])]                
+table = dbc.Table(table_header + table_body, bordered=True, style = {'color':'#FFFFFF'})
+ 
+            
 image_filename = 'FinicalLogoWithoutWording.png' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
-
 
 
 SATaxi_LOGO = "https://cdn0.iconfinder.com/data/icons/cars-and-delivery/512/minibus-512.png"
@@ -41,138 +51,83 @@ server = app.server
 
 app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content',style = {'margin':'0px' ,'padding':'0px' })
+    html.Div(id='page-content',style = {'margin':'0px','padding':'0px' })
 ])
 
 
 page_1_layout = html.Div([
+
+    mf.GenerateNavBar(),
     
-dbc.Navbar(
-    [
-    
-                html.A(
-                    html.Img(
-                        src='data:image/png;base64,{}'.format(encoded_image.decode())
-                        ,height='70px'
-                        ,width='70px'
-                        ,className = "float-left"
-                    )
-                    ,className ="nav-link float-left"
-                ),
-                
-        
-                
-        html.Ul(
-            
-            html.Ul(
-                                
-                html.A(
-                    dbc.NavbarBrand("Finical advisory (ltd)")
-                    ,style = {"width":"auto" , 'margin':'0%','padding':'0px'}
-                    ,className =" navbar-nav float-left no-arrow"
-                )
-                
-                
-                ,className ="nav-item dropdown no-arrow"
-
-            )
-            
-            ,className ="nav navbar-nav ml-auto no-arrow" 
-        ),
-        
-                                
-        dbc.DropdownMenu(right=True,                             
-                         label="Choose your calculator",                    
-                         children=[                      
-                             dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),                     
-                             dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),                 
-                         ]                  
-                         ,className = 'float-right'
-                                                   
-                        ),
-        
-
-    ]
-    ,color="#3C415C"
-    ,dark=True
-    ,className = "shadow"
-    ,style = {"padding":'0% 10%'}
-),
-
     html.P(
-            children="The impact of compound interest could either set you on the road to riches or spiraling into debt you may never recover from. One such example is your mortgage. Most people spend their whole lifes paying off their mortgage and end up paying more than twice the value of the their home. By paying an extra amount each month, you could save hundreds of thousands of rands over your life time.",className="header-description"),
-
+                children="The impact of compound interest could either set you on the road to riches or spiraling into debt you may never recover from. One such example is your mortgage. Most people spend their whole lifes paying off their mortgage and end up paying more than twice the value of the their home. By paying an extra amount each month, you could save hundreds of thousands of rands over your life time.",className="header-description"),
   #html.Div([
-
+                    
+    
 
     #html.Div([
         html.Div([
-
+            mf.GenerateSectionHeading("Please input your mortgage details below"), 
         
         html.Div([
-            
-            html.Div( 
-                html.P(children="Please input your mortgage details below", style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
-                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                , style = {'background-color':'#3C415C'}
-            ),
 
-            dbc.Col([
-                html.Div(id='LoanAmount-output-container',className = 'MySlider WordingColor'),
-                dbc.Input(id="Amountinput", placeholder="Mortgage amount outstanding", type="Number", min = 0, max = 10000000, value= 1000000, style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
-            ],className = 'MySlider'),
             
-            dbc.Col([
-                html.Div(id='InterestRate-output-container',className = 'MySlider WordingColor'),
-                dbc.Input(id="InterestRateinput", placeholder='7%', type="Number", min = 0, max = 20, value= 5, style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
-            ],className = 'MySlider'),
+            mf.GenerateInputCardObject(html.Div(id='LoanAmount-output-container',className = 'MySlider'
+                                         ,style = {'width':'60%','margin':'auto'})
+                                    ,mf.GenerateInput("Amountinput",0,10000000,"Number",1000000,'R1000 000')
+                                    ,"col-xl-6 col-lg-6"  ),
             
-            dbc.Col([
-                html.Div(id='LoanTerm-output-container',className = 'MySlider WordingColor'),
-                dbc.Input(id="RemainingLoanTerm", placeholder='15', type="Number", min = 0, max = 40, value= 20 , style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
-            ],className = 'MySlider'),
-                    
-            dbc.Col([
-                html.Div(id='AdditionalContribution-output-container',className = 'MySlider WordingColor'),
-                dbc.Input(id="AdditionalContribution", placeholder='R 1000', type="Number", min = 0, max = 20000, value= 0 , style = {'width':'50%','margin':'auto', 'margin-top':'20px', 'margin-bottom':'20px', 'padding':'20px 10px' })
-            ],className = 'MySlider'),
+                        
+            mf.GenerateInputCardObject( html.Div(id='InterestRate-output-container',className = 'MySlider'
+                                         ,style = {'width':'60%','margin':'auto'}),
+                                       mf.GenerateInput("InterestRateinput",0,20,"Number",5,'5%')
+                                      ,"col-xl-6 col-lg-6"),
             
-        ],className = 'card-body text-center', style = {'margin': '0px', 'padding':'0px 0px'}),
-        
+            mf.GenerateInputCardObject( html.Div(id='LoanTerm-output-container',className = 'MySlider'
+                                         ,style = {'width':'60%','margin':'auto'}),
+                                       mf.GenerateInput("RemainingLoanTerm",0,40,"Number",20,'20 years')
+                                      ,"col-xl-6 col-lg-6"),
             
-        html.Div([
+            mf.GenerateInputCardObject( html.Div(id='AdditionalContribution-output-container',className = 'MySlider'
+                                         ,style = {'width':'60%','margin':'auto'}),
+            mf.GenerateInput("AdditionalContribution",0,20000,"Number",0,'R 1000')
+                                      ,"col-xl-6 col-lg-6")
             
-            html.Div( 
-                html.P(children="Outstanding loan amount",className="Graph-header",style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
-                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between", style = {'background-color':'#3C415C'}),
             
-            dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False,'autosizable':True},),],className = 'card-body text-center',style = {'margin': '0px', 'padding':'0px 0px'}
-         ),
-        
-                
-        dbc.Col([
-            
-            html.Div( 
-                html.P(children="Payment details",className="Graph-header",style = {'margin':'auto','width':'50%','font-size':'20px','color':'#FFFFFF'})
-                ,className="card-header py-3 d-flex flex-row align-items-center justify-content-between", style = {'background-color':'#3C415C'}),
     
+        ],className = 'card-body text-center row', style = {'margin': '0px', 'padding':'0px 0px'}),
             
-            dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False,'autosizable':True}),],className = 'card-body text-center',style = {'margin': '0px', 'padding':'0px 0px' }
-         ),
+            mf.GenerateSectionHeading("Your loan payment details"),
         
-        #],justify="center", style = {'margin':'0px' , 'padding': '0px'}
+            html.Div([
+                
+                        
+            mf.GenerateGraphBackGround("Payment details"
+                                       ,table
+                                       ,"col-xl-6 col-lg-6 "
+                                      ),
             
-        #),
-            
-    ], className="card shadow mb-2 lg-4" ),
-  
-  #],className="col-xl-4 col-lg-4"),
+            mf.GenerateGraphBackGround("Outstanding loan amount"
+                                       ,dcc.Graph( id='Graph-Loan-Amount',config={"displayModeBar": False,'autosizable':True},)
+                                       ,"col-xl-6 col-lg-6 "
+                                      ),
+                
+            #mf.GenerateGraphBackGround("Payment details"
+            #                           ,dcc.Graph( id='PaymentDetails-Amount',config={"displayModeBar": False,'autosizable':True})
+           #                            ,"col-xl-4 col-lg-4 "
+            #                          )
+
+            ],style = {'display': 'flex',  'display': '-ms-flexbox' , 'display': 'flex', '-ms-flex-wrap': 'wrap', 'flex-wrap': 'wrap'})
+    
+        ]
+            , className="card shadow mb-2 lg-4" ), 
+   
     
     html.Div(
         dbc.NavLink(children = [
             html.I(className="fab fa-linkedin fa-3x"
                   ),
-            html.Div(html.Span('Copyright © 2020'),className = "copyright text-center my-auto")
+            html.Div(html.Span('Copyright © 2021'),className = "copyright text-center my-auto")
         ]          
                     ,style = {'color':'White','padding':"5% 0%"}
                     ,href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/"
@@ -183,13 +138,20 @@ dbc.Navbar(
     
 
 ]) 
+                
 
 @app.callback([Output('LoanAmount-output-container', 'children'),
                Output('InterestRate-output-container', 'children'),
                Output('LoanTerm-output-container', 'children'),
                Output('AdditionalContribution-output-container', 'children'),
                Output('Graph-Loan-Amount', 'figure'),
-               Output('PaymentDetails-Amount', 'figure')]
+               #Output('PaymentDetails-Amount', 'figure'),
+               Output('MonthlyInstallment', 'children'),
+               Output('TotalInterestPaid', 'children'),
+               Output('TotalInterestSaved', 'children'),
+               Output('ReductionInLoanTerm', 'children'),
+               Output('TotalMonthlyInstallMent', 'children'),
+               Output('TotalPaymentsMade','children')]
               ,[Input('Amountinput', 'value')
                ,Input('InterestRateinput', 'value')
                ,Input('RemainingLoanTerm', 'value')
@@ -208,22 +170,29 @@ def LoanData(OutstandingLoanAmount, InterestRate, LoanTerm, ExtraAmountPaidOff):
     MonthlyInterestRate = (1+int(MortgageInterest)/100)**(1/12) - 1
     AnnuityFactor = ((1-(1+MonthlyInterestRate)**(-N_rows))/MonthlyInterestRate)
     MonthlyInstallment = LoanValue/AnnuityFactor
+    NewLoanTerm = 0 
     
     for x in range(N_rows):
         
-        LoanDataValues.iloc[x][1] = x
+        LoanDataValues.iloc[x][1] = x+1
         
         if x == 0 :
             LoanDataValues.iloc[x][2] = LoanValue
             LoanDataValues.iloc[x][3] = LoanValue*MonthlyInterestRate
             LoanDataValues.iloc[x][4] = LoanDataValues.iloc[x][2] + LoanDataValues.iloc[x][3] - MonthlyInstallment
             LoanDataValues.iloc[x][5] = MonthlyInstallment
+            NewLoanTerm = x + 1
         
         elif (LoanDataValues.iloc[x-1][4] < (MonthlyInstallment + ExtraPaymentMade) ):
             LoanDataValues.iloc[x][2] = LoanDataValues.iloc[x-1][4]
             LoanDataValues.iloc[x][3] = LoanDataValues.iloc[x][2]*MonthlyInterestRate
             LoanDataValues.iloc[x][4] = 0
             LoanDataValues.iloc[x][5] = LoanDataValues.iloc[x-1][4]
+            
+            if (LoanDataValues.iloc[x-1][4] > 0):
+                NewLoanTerm = x + 1
+                
+            
         
         elif (LoanDataValues.iloc[x-1][4] == 0 ):
             LoanDataValues.iloc[x][2] = LoanDataValues.iloc[x-1][4]
@@ -236,112 +205,91 @@ def LoanData(OutstandingLoanAmount, InterestRate, LoanTerm, ExtraAmountPaidOff):
             LoanDataValues.iloc[x][3] = LoanDataValues.iloc[x][2]*MonthlyInterestRate
             LoanDataValues.iloc[x][4] = LoanDataValues.iloc[x][2] + LoanDataValues.iloc[x][3] - MonthlyInstallment - ExtraPaymentMade
             LoanDataValues.iloc[x][5] = MonthlyInstallment + ExtraPaymentMade
+
     
     LoanDataValues = LoanDataValues.rename(columns = {1: 'Months into loan' , 2: 'Start Loan outstanding', 3: 'Interest paid', 4: 'Outstanding loan amount', 5:'Installments Made'}, inplace = False)
     OriginalLoanTermsGraph = px.line(LoanDataValues, x= 'Months into loan', y='Outstanding loan amount')
     
     Installment = ['Annual installment', (MonthlyInstallment + ExtraPaymentMade)*12]
     InterestPaid = ['Interest paid', LoanDataValues['Interest paid'].sum()]
+    InterestPaidValue = LoanDataValues['Interest paid'].sum()
     Totalpaymentsmade = ['Total payments made', LoanDataValues['Interest paid'].sum() + LoanValue]
     Bar1Data = pd.DataFrame([Installment,InterestPaid,Totalpaymentsmade])
-
+    InterestAmountSaved = (MonthlyInstallment*OutstandingLoanTerm*12 - LoanValue) - InterestPaidValue 
+    LoanTermReduction = OutstandingLoanTerm*12-NewLoanTerm
+                
     Bar1Data = Bar1Data.rename(columns = {0: 'Payment description', 1: 'Amount'})
     
     LoaninfoGraph = px.bar(Bar1Data, x= 'Payment description' ,y='Amount')
+    
+    LoanAmountInfo = html.H5('You have R{:,.0f} outstanding on your mortgage'.format(OutstandingLoanAmount),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
+    InterestRateInfo = html.H5('You pay a rate of interest rate of {}% '.format(InterestRate),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
+    LoanTermInfo = html.H5('Your outstanding loan term is {} years '.format(LoanTerm),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
+    AdditionalcontributionINfo = html.H5('You are paying R{} extra per month'.format(ExtraAmountPaidOff),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
+    MonthlyInstallmentInfo = "R{:,.1f}".format(round(MonthlyInstallment,2))
+    InterestPaidValueInfo = "R{:,.1f}".format(round(InterestPaidValue,2)) 
+    InterestAmountSavedInfo = "R{:,.1f}".format(round(InterestAmountSaved,2))
+    LoanTermReductionInfo = "{} months reduction".format(round(LoanTermReduction,2))
+    TotalMonthlyInstallmentInfo = "R{:,.1f}".format(round(MonthlyInstallment+ExtraPaymentMade,2))
+    TotalPaymentsMadeInfo = "R{:,.1f}".format(round(LoanDataValues['Interest paid'].sum() + LoanValue,2))
+    
+    #html.I(className = "fas fa-home fa-2x",style = {'color':'#3C415C','margin':'margin-right:3px'})
+    return LoanAmountInfo,            InterestRateInfo,            LoanTermInfo,            AdditionalcontributionINfo,            OriginalLoanTermsGraph,            MonthlyInstallmentInfo,            InterestPaidValueInfo,            InterestAmountSavedInfo,            LoanTermReductionInfo,            TotalMonthlyInstallmentInfo,            TotalPaymentsMadeInfo
 
-    return 'You have R{} outstanding on your mortgage'.format(OutstandingLoanAmount), 'You pay a rate of interest rate of {}% '.format(InterestRate), 'Your outstanding loan term is {} years '.format(LoanTerm), 'You are paying R {} extra per month'.format(ExtraAmountPaidOff) , OriginalLoanTermsGraph, LoaninfoGraph
-
-
+               
+            #LoaninfoGraph, \              
+               
 page_2_layout = html.Div([
     
-dbc.Navbar(
-    [
-    
-                html.A(
-                    html.Img(
-                        src='data:image/png;base64,{}'.format(encoded_image.decode())
-                        ,height='70px'
-                        ,width='70px'
-                        ,className = "float-left"
-                    )
-                    ,className ="nav-link float-left"
-                ),
-                
-        
-                
-        html.Ul(
-            
-            html.Ul(
-                                
-                html.A(
-                    dbc.NavbarBrand("Finical advisory (ltd)")
-                    ,style = {"width":"auto" , 'margin':'0%','padding':'0px'}
-                    ,className =" navbar-nav float-left no-arrow"
-                )
-                
-                
-                ,className ="nav-item dropdown no-arrow"
-
-            )
-            
-            ,className ="nav navbar-nav ml-auto no-arrow" 
-        ),
-        
-                                
-        dbc.DropdownMenu(right=True,                             
-                         label="Choose your calculator",                    
-                         children=[                      
-                             dbc.DropdownMenuItem(dbc.NavLink("Investment calculator", href="/InvestmentCalculator")),                     
-                             dbc.DropdownMenuItem(dbc.NavLink("Mortgage calculator", href="/Mortgagecalcs")),                 
-                         ]                  
-                         ,className = 'float-right'
-                                                   
-                        ),
-        
-
-    ]
-    ,color="#3C415C"
-    ,dark=True
-    ,className = "shadow"
-    ,style = {"padding":'0% 10%'}
-),
+mf.GenerateNavBar(),
 
         html.P(
             children="Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last in retirement. The below investment calculator allows you to guage the amount of retirement assets you may accumulate under different scenarios and assumes that you will purchase a retirement income anuity ,from which you will draw a monthly income, from a trusted financial services provider.",className="header-description"),
 
-  html.Div([
+    
+    mf.GenerateSectionHeading("Please select the inputs applicable to you below"),
 
-    html.P(children="Please select the inputs applicable to you below",className="Graph-header"),
-    dbc.Row([  
-
-        html.Div([html.P(children="Do you plan to save a lump-sum amount or save recurring monthly contributions:",className="InDivText")], className = 'InvestmentTypeDiv'),
-        html.Div([
-            dcc.Dropdown(
-                id='Investment-type-dropdown',
-                options=[
-                    {'label': 'Lump-sum', 'value': 'LumpSum'},
-                    {'label': 'Recurring', 'value': 'Recurring'}
-                ],
-                value='LumpSum'
-            ),
-
-        ]
-        #, style = {'margin-left': '20px ', 'padding':'0px 0px'}
-        ),
+                             
+    html.Div(children = [
         
-        dbc.Col([], id = 'AmountsliderType-output-container',className = 'MySlider'),
+            mf.GenerateInputCardObject(                 
+                html.H6('Do you plan to save a lump-sum amount or save recurring monthly contributions?'
+                         ,className="m-0 text-secondary text-center"
+                        )  
+                ,                                 
+                mf.generateRadioInputs('Investment-type-dropdown','Lump-sum','Recurring')
+                ,"col-xl-4 col-lg-4"
+            ),
+    
+        html.Div(id = 'AmountsliderType-output-container',className = "col-xl-4 col-lg-4"),
+        
+    mf.GenerateInputCardObject( html.Div(id='TargetretirementIncome-output-container' 
+                                         ,className = 'MySlider'
+                                         ,style = {'width':'60%','margin':'auto'})
+                               ,                       
+                               
+                               dcc.Slider(
+                                            id='TargetretirementIncome-slider',
+                                            min = 10000,
+                                            max= 100000,
+                                            step=1000,
+                                            value=10000,
+                                            marks={
+                                                10000: {'label':'R10 000' , 'style': {'color': '#F9F9F9','width':'100%'}},
+                                                25000: {'label':'R25 000' , 'style': {'color': '#F9F9F9'}},
+                                                50000: {'label':'R50 000' , 'style': {'color': '#F9F9F9'}},
+                                                75000: {'label':'R75 000' , 'style': {'color': '#F9F9F9'}},
+                                                100000: {'label':'R100 000' , 'style': {'color': '#F9F9F9','width':'100%'}},
+                                            }
+                                            
+                                        )
+                              ,"col-xl-4 col-lg-4")
 
-        #html.Col([
-        #    html.Div(id='Age-output-container',children = 'Asset management fees',className = 'MySlider'),
-        #    dbc.Input(id="AssetManageFees", placeholder="2%", type="number")
-        #]),
+        
+    ],className = 'row'
+     ,style = {'padding':'0px','margin':'0px'}       ),
 
-
-    ],align="center" ,justify="center", style = {'margin':'0px'}),
-
-  ]),
-
-    html.P(children="Investment horison factors",className="Graph-header"),
+    mf.GenerateSectionHeading("Investment horizon factors"), 
 
     html.Div([
 
@@ -370,12 +318,12 @@ dbc.Navbar(
             html.Div(id='RetAge-output-container' ,className = 'MySlider'),
             dcc.Slider(
                     id='RetAge-slider',
-                    min = 55,
+                    min = 35,
                     max= 80,
                     step=1,
                     value=55,                
                     marks={
-                        55: {'label':'55' , 'style': {'color': '#F9F9F9'}},
+                        35: {'label':'35' , 'style': {'color': '#F9F9F9'}},
                         65: {'label':'65' , 'style': {'color': '#F9F9F9'}},
                         70: {'label':'70' , 'style': {'color': '#F9F9F9'}},
                         80: {'label':'80' , 'style': {'color': '#F9F9F9'}}
@@ -404,14 +352,14 @@ dbc.Navbar(
                 ),
             ],className = 'MySlider'),
 
-        ] , no_gutters = True ,style = {'padding':'30px'} ,align="center" ,justify="center"),
+        ] , no_gutters = True ,style = {'padding':'30px','margin':'0px'} ,align="center" ,justify="center"),
 
       ]),
 
 
     html.Div([
 
-        html.P(children="Economic growth factors",className="Graph-header"),
+        mf.GenerateSectionHeading("Economic growth factors"),
 
     dbc.Row([
 
@@ -455,50 +403,108 @@ dbc.Navbar(
                     }
                 ),
             ],className = 'MySlider'),
+        
 
-        dbc.Col([
-            html.I(className="fas fa-coins fa-3x", style = {'display': 'inline-block', 'width': '100%'}),
-            html.Div(id='TargetretirementIncome-output-container' ,className = 'MySlider'),
-            dcc.Slider(
-                    id='TargetretirementIncome-slider',
-                    min = 10000,
-                    max= 100000,
-                    step=1000,
-                    value=10000,
-                    marks={
-                        25000: {'label':'R25 000' , 'style': {'color': '#F9F9F9'}},
-                        50000: {'label':'R50 000' , 'style': {'color': '#F9F9F9'}},
-                        75000: {'label':'R75 000' , 'style': {'color': '#F9F9F9'}},
-                    }
-                ),
-            ]),
 
             ], style = {'padding':'30px' , 'margin':'0px'} ,align="center" ,justify="center"),
 
         ],className = 'MySlider'),
+    
+        mf.GenerateSectionHeading("Your retirement savings results"),
+    
+    html.Div(children = [
+    html.Div(
+        html.Div( children = [
+            html.Div(children = [ 
+
+                html.H6("Projected retirement assets (in today's terms)"
+                         ,className="m-0 text-secondary text-center"
+                         
+                        
+                         
+                        )
+
+            ]
+
+                ,className = "card-header"
+                     ,style = {'justify-content':' center'}
+             
+                    ),
+            html.Div( 
+                children = [
+                    html.Div( 
+                        children = [
+                                html.Div([
+                                    dcc.Graph( id='Projected-retirement-assets',config={"displayModeBar": False},)
+                                ]
+                                ),
+                        ],
+                        className = "chart-container"
+                    ) 
+            
+                ]
+                ,className="card-body pt-4 pb-2"
+                ,style = {'background-color':'#3C415C'}
+            )
+            
+        ],className = "card shadow mb-2"
+                )
+        ,className = "col-xl-6 col-lg-6 "  
+    ),
+
+    
+        html.Div(
+        html.Div( children = [
+            html.Div(children = [ 
+
+                html.H6("Monthly retirement income (in today's terms)"
+                         ,className="m-0 text-secondary text-center"
+                        ,style = {'justify-content':' center'}
+                         
+                        )
+
+            ]
+
+                ,className = "card-header"
+                     ,style = {'justify-content':' center'}
+                     
+             
+                    ),
+            html.Div( 
+                children = [
+                    html.Div( 
+                        children = [
+                                html.Div([
+                                    dcc.Graph( id='Retirement-Income-assets'
+                                              ,config={"displayModeBar": False}
+                                              ,style = {'width':'100%','height':'100%'})
+                                ]
+                                ),
+                        ],
+                        className = "chart-container"
+                    ) 
+            
+                ]
+                ,className="card-body pt-4 pb-2"
+                ,style = {'background-color':'#3C415C'}
+            )
+            
+        ],className = "card shadow mb-2"
+                )
+        ,className = "col-xl-6 col-lg-6"  
+    )
+        ],className = "row"
+        ,style = {'margin':'0px'}     
+            ),
 
 
-        dbc.Col([
-            html.P(children="Projected retirement assets (in today's terms)",className="Graph-header"),
-            dcc.Graph( id='Projected-retirement-assets',config={"displayModeBar": False},),]
-            ,style = {'margin': '0px', 'padding':'0px 0px'}
-            ,className = "shadow"
-     
-        ),
-
-       dbc.Col([
-           html.P(children="Monthly retirement income (in today's terms)",className="Graph-header"),
-           dcc.Graph( id='Retirement-Income-assets',config={"displayModeBar": False},) ]
-           ,style = {'margin': '0px', 'padding':'0px 0px'}
-           ,className = "shadow"
-       ),
     
             
     html.Div(
         dbc.NavLink(children = [
             html.I(className="fab fa-linkedin fa-3x"
                   ),
-            html.Div(html.Span('Copyright © 2020'),className = "copyright text-center my-auto")
+            html.Div(html.Span('Copyright © 2021'),className = "copyright text-center my-auto")
         ]          
                     ,style = {'color':'White','padding':"5% 0%"}
                     ,href="https://www.linkedin.com/in/michael-botha-tassa-a891ab9b/"
@@ -507,7 +513,12 @@ dbc.Navbar(
         ,className = "copyright text-center my-auto"
     ),
 
-], style = {'background-color': '#2978B5'})
+], style = {'background-color': '#2978B5'
+            , 'width': '100%'
+            , 'height': '100%'
+            , 'margin': '0px'
+            , 'padding': '0px'
+            , 'overflow-x': 'hidden'})
 
 
 @app.callback(Output('AmountsliderType-output-container', 'children')
@@ -515,12 +526,18 @@ dbc.Navbar(
 
 def InvestmentTypegetter(typeselected):
 
-    if typeselected == 'LumpSum':
+    if typeselected == 'Lump-sum':
 
-        slidervalues = dbc.Col([
-            #html.I(className="far fa-money-bill-alt fa-3x"),
-            html.Div(id='Principal-output-container' ,className = 'MySlider'),
-                            dcc.Slider(
+        slidervalues = html.Div( children = [
+            html.Div(children = [  
+                html.Div(id='Principal-output-container',style = {'width':'50%','margin':'auto'}),
+            ],className = "card-header py-3 d-flex flex-row align-items-center justify-content-between text-center"
+                    ),
+            html.Div( 
+                children = [
+                    html.Div( 
+                        children = [
+                                dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 100000,
                                     max= 10000000,
@@ -530,16 +547,34 @@ def InvestmentTypegetter(typeselected):
                                         100000: {'label':'R100k' , 'style': {'color': '#F9F9F9'}},
                                         1000000: {'label':'R1 mil' , 'style': {'color': '#F9F9F9'}},
                                         5000000: {'label':'R5 mil' , 'style': {'color': '#F9F9F9'}},
-                                        10000000: {'label':'R10 mil' , 'style': {'color': '#F9F9F9'}},
+                                        10000000: {'label':'R10 mil' , 'style': {'color': '#F9F9F9','width':'100%'}},
                                     }
-                                )])
-
+                                ),
+                        ],
+                        className = "chart-container"
+                    ) 
+            
+                ]
+                ,className="card-body pt-4 pb-2"
+                ,style = {'background-color':'#3C415C'}
+            )
+            
+        ],className = "card shadow mb-2"
+                
+                               )
+        
     else:
 
-        slidervalues = dbc.Col([
-            #html.I(className="far fa-money-bill-alt fa-3x"),
-            html.Div(id='Principal-output-container' ,className = 'MySlider'),
-                            dcc.Slider(
+         slidervalues = html.Div( children = [
+            html.Div(children = [  
+                html.Div(id='Principal-output-container',style = {'width':'50%','margin':'auto'}),
+            ],className = "card-header py-3 d-flex flex-row align-items-center justify-content-between text-center"
+                    ),
+            html.Div( 
+                children = [
+                    html.Div( 
+                        children = [
+                                dcc.Slider(
                                     id='Principal-investment-slider',
                                     min = 500,
                                     max= 30000,
@@ -549,9 +584,21 @@ def InvestmentTypegetter(typeselected):
                                         500: {'label':'R500' , 'style': {'color': '#F9F9F9'}},
                                         5000: {'label':'R5 000' , 'style': {'color': '#F9F9F9'}},
                                         10000: {'label':'R10 000' , 'style': {'color': '#F9F9F9'}},
-                                        30000: {'label':'R30 000' , 'style': {'color': '#F9F9F9'}},
+                                        30000: {'label':'R30 000' , 'style': {'color': '#F9F9F9','width':'100%'}},
                                     }
-                                )])
+                                ),
+                        ],
+                        className = "chart-container"
+                    ) 
+            
+                ]
+                ,className="card-body pt-4 pb-2"
+                ,style = {'background-color':'#3C415C'}
+            )
+            
+        ],className = "card shadow mb-2"
+                
+                               )
 
     return slidervalues
 
@@ -599,7 +646,7 @@ def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,Invest
 
             ValuesMatrix.iloc[x][0] = age + x
 
-            if investmentType3 == 'LumpSum':
+            if investmentType3 == 'Lump-sum':
 
                 if x == 0 :
                     ValuesMatrix.iloc[x][1] = Fundvalue
@@ -654,9 +701,11 @@ def CalculateRetirement(Client_age,Client_Retirement_Age,TermInRetirement,Invest
     #Formatting outputs
     Client_GrowthRate = round(Client_GrowthRate*100,1)
     Client_Inflation = round(Client_Inflation*100,1)
-
-
-    return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You will live {} years in retirement'.format(TermInRetirement),'You want to invest R{}'.format(InvestmentAmount) , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) , 'Required monthly income in retirement: R{} '.format(Client_target_Income), RetirementGraph, RetirementIncome
+    
+    AmountInvestedmessage = html.H6('You want to invest R{}'.format(InvestmentAmount),className="m-0 text-secondary text-center")
+    TargetRetirementIncomemessage = html.H6( 'Required monthly income in retirement: R{} '.format(Client_target_Income),className="m-0 text-secondary text-center")
+    
+    return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You will live {} years in retirement'.format(TermInRetirement), AmountInvestedmessage , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) ,TargetRetirementIncomemessage, RetirementGraph, RetirementIncome
 
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
