@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[51]:
+# In[ ]:
 
 
 import dash
@@ -222,7 +222,7 @@ def LoanData(OutstandingLoanAmount, InterestRate, LoanTerm, ExtraAmountPaidOff):
     
     LoaninfoGraph = px.bar(Bar1Data, x= 'Payment description' ,y='Amount')
     
-    LoanAmountInfo = html.H5('You have R{:,.0f} outstanding on your mortgage'.format(OutstandingLoanAmount),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
+    LoanAmountInfo = html.H5('You have R{} outstanding on your mortgage'.format(OutstandingLoanAmount),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
     InterestRateInfo = html.H5('You pay a rate of interest rate of {}% '.format(InterestRate),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
     LoanTermInfo = html.H5('Your outstanding loan term is {} years '.format(LoanTerm),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
     AdditionalcontributionINfo = html.H5('You are paying R{} extra per month'.format(ExtraAmountPaidOff),className="m-0 text-secondary text-center",style = {'justify-content':'center'})
